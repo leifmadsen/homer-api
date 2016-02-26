@@ -1,0 +1,23 @@
+homer_ui:
+    image: madsen/homer_ui
+
+homer_api:
+    image: madsen/homer_api
+
+db:
+    image: mysql
+    env_file:
+        - ./database.env
+    volumes:
+        - ./initdb:/docker-entrypoint-initdb.d/
+
+web:
+    image: php:5.6-apache
+    ports:
+        - "80:80"
+
+    volumes_from:
+        - homer_ui
+        - homer_api
+        - db
+        - api_config
